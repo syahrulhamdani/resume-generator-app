@@ -172,3 +172,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Ignore generated credentials from google-github-actions/auth
+gha-creds-*.json
+
+secrets

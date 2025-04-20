@@ -1,0 +1,27 @@
+name: Push to Google Artifact Registry
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v2
+      with:
+        project_id: ceritadata-3704
+        credentials_json: ${{ secrets.ARTIFACT_REGISTRY_SA }}
+    - name: Configure Google Artifact Registry
+      run: |
+        gcloud auth configure-docker $REGION-docker.pkg.dev
+    - name: Build and push Docker image
+      run: |
+        IMAGE_NAME=$REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/resume-generator:latest
+        docker build -t $IMAGE_NAME .
+        docker push $IMAGE_NAME
