@@ -37,7 +37,7 @@ class AppSettings(BaseSettings):
     LOG_USE_BASIC_FORMAT: bool = to_bool(
         os.getenv("LOG_USE_BASIC_FORMAT", "False")
     )
-    API_PREFIX: str = os.getenv("API_PREFIX", "/deloitte/genai/api")
+    API_PREFIX: str = os.getenv("API_PREFIX", "/sylab/api")
 
 
 class Settings(AppSettings):
