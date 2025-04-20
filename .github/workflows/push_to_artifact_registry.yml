@@ -1,4 +1,7 @@
 name: Push to Google Artifact Registry
+env:
+  IMAGE: resume-generator
+  TAG: latest
 
 on:
   push:
@@ -19,9 +22,9 @@ jobs:
         credentials_json: ${{ secrets.ARTIFACT_REGISTRY_SA }}
     - name: Configure Google Artifact Registry
       run: |
-        gcloud auth configure-docker $REGION-docker.pkg.dev
+        gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev
     - name: Build and push Docker image
       run: |
-        IMAGE_NAME=$REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/resume-generator:latest
+        IMAGE_NAME=${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/$IMAGE:$TAG
         docker build -t $IMAGE_NAME .
         docker push $IMAGE_NAME
