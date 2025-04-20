@@ -29,8 +29,8 @@ jobs:
         docker build -t $IMAGE_NAME .
         docker push $IMAGE_NAME
 
-      outputs:
-        image: ${{ steps.build-and-push.outputs.IMAGE_NAME }}
+    outputs:
+      image: ${{ steps.build-and-push.outputs.IMAGE_NAME }}
 
   deploy-to-cloud-run:
     runs-on: ubuntu-latest
