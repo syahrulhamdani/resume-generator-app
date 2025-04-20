@@ -5,7 +5,7 @@ import os
 _LOGGER = logging.getLogger(__name__)
 
 
-def remove_file(path: str):
+async def remove_file(path: str):
     """Remove a file by path.
 
     Args:
@@ -18,3 +18,4 @@ def remove_file(path: str):
             _LOGGER.debug("Done removing file: %s", path)
     except Exception as exc:
         _LOGGER.exception("Error removing file: %s", exc)
+    return path

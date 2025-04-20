@@ -1,6 +1,5 @@
 """Resume generator endpoints."""
 import logging
-import os
 import tempfile
 
 from fastapi import APIRouter, HTTPException, BackgroundTasks
@@ -16,10 +15,7 @@ router = APIRouter(prefix="/v1")
 
 
 @router.post("/resume/generate", tags=["resume"])
-async def generate_resume(
-    data: ResumeData,
-    background_tasks: BackgroundTasks,
-):
+async def generate_resume(data: ResumeData):
     """
     Generate a resume PDF from the provided resume data.
 
@@ -32,7 +28,7 @@ async def generate_resume(
 
     Returns:
         FileResponse: A response containing the generated PDF file.
-    
+
     Raises:
         HTTPException: If an error occurs during resume generation.
     """
@@ -41,9 +37,10 @@ async def generate_resume(
         file_name = f"{data.name.lower().replace(" ", "_")}"
         file_name = file_name.replace(".", "_").replace(",", "_")
         generator = ResumeGenerator(style=Style())
-        if not os.path.exists("data/pdf"):
-            os.makedirs("data/pdf")
-        pdf_path = os.path.join("data/pdf", f"{file_name}.pdf")
+
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as f:
+            pdf_path = f.name
+
         generator.generate_pdf(data.model_dump(), output_path=pdf_path)
 
         _LOGGER.info("Generate resume service done")
@@ -54,8 +51,10 @@ async def generate_resume(
             headers={
                 "Content-Disposition": f"attachment; filename={file_name}"
             },
+            background=BackgroundTasks([lambda: remove_file(pdf_path)])
         )
     except Exception as exc:
-        _LOGGER.exception("Error generating resume: %s", exc)
-        raise HTTPException(status_code=500,
-                            detail=f"Error generating resume: {exc}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error generating resume: {exc}"
+        ) from exc
