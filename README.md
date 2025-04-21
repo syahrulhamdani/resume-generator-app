@@ -1,6 +1,6 @@
 # resume-generator-app
 
-[![Build and Deploy to Cloud Run](https://github.com/syahrulhamdani/resume-generator-app/actions/workflows/cloudrun.yml/badge.svg?branch=main&event=push)](https://github.com/syahrulhamdani/resume-generator-app/actions/workflows/cloudrun.yml)
+[![Build and Deploy to Cloud Run](https://github.com/syahrulhamdani/resume-generator-app/actions/workflows/cloudrun.yml/badge.svg?branch=main&event=push)](https://github.com/syahrulhamdani/resume-generator-app/actions/workflows/cloudrun.yml) [![Linter](https://github.com/syahrulhamdani/resume-generator-app/actions/workflows/pylint.yml/badge.svg?branch=main&event=push)](https://github.com/syahrulhamdani/resume-generator-app/actions/workflows/pylint.yml)
 
 A FastAPI-based service for generating PDF resumes from structured JSON data.
 
