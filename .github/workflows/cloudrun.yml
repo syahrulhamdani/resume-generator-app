@@ -50,6 +50,6 @@ jobs:
       id: deploy
       uses: google-github-actions/deploy-cloudrun@v2
       with:
-        service: $SERVICE
+        service: $IMAGE
         region: ${{ vars.REGION }}
         image: ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/$IMAGE:$TAG
