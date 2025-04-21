@@ -24,13 +24,14 @@ jobs:
       run: |
         gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev
     - name: Build and push Docker image
+      id: build-push
       run: |
         IMAGE_NAME=${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/$IMAGE:$TAG
         docker build -t $IMAGE_NAME .
         docker push $IMAGE_NAME
 
     outputs:
-      image: ${{ steps.build-and-push.outputs.IMAGE_NAME }}
+      image: ${{ steps.build-push.outputs.IMAGE_NAME }}
 
   deploy-to-cloud-run:
     runs-on: ubuntu-latest
