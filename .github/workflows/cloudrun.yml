@@ -37,6 +37,14 @@ jobs:
     needs: build-and-push
 
     steps:
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v2
+      with:
+        project_id: ceritadata-3704
+        credentials_json: ${{ secrets.ARTIFACT_REGISTRY_SA }}
+    - name: Configure Google Artifact Registry
+      run: |
+        gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev
     - name: Deploy to Cloud Run
       id: deploy
       uses: google-github-actions/deploy-cloudrun@v2
