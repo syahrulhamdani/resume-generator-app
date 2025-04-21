@@ -52,4 +52,4 @@ jobs:
       with:
         service: $SERVICE
         region: ${{ vars.REGION }}
-        image: ${{ needs.build-and-push.outputs.image }}
+        image: ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/$IMAGE:$TAG
