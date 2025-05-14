@@ -26,16 +26,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(generator.router)
+app.include_router(generator.router, prefix=c.API_PREFIX)
 
 
-@app.get("/health")
+@app.get(f"{c.API_PREFIX}/{api.__version__}/health")
 async def health_check():
     """Health check endpoint for the service"""
     return {"status": "healthy"}
 
 
-@app.get("/")
+@app.get(f"{c.API_PREFIX}/{api.__version__}/")
 async def root():
     """Root endpoint with API information"""
     return {
