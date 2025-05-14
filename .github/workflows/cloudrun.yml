@@ -53,3 +53,4 @@ jobs:
         service: ${{ vars.IMAGE }}
         region: ${{ vars.REGION }}
         image: ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ vars.IMAGE }}:latest
+        flags: "--port=7070 --memory=2Gi --cpu=2 --service-account=gha-gar@ceritadata-3704.iam.gserviceaccount.com"
