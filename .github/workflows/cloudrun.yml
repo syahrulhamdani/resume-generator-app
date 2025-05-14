@@ -4,9 +4,9 @@ env:
   TAG: latest
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   build-and-push:
