@@ -34,7 +34,7 @@ async def generate_resume(data: ResumeData):
     """
     try:
         _LOGGER.info("Start generate resume endpoint")
-        file_name = f"{data.name.lower().replace(" ", "_")}"
+        file_name = f"{data.name.lower().replace(' ', '_')}"
         file_name = file_name.replace(".", "_").replace(",", "_")
         generator = ResumeGenerator(style=Style())
 
