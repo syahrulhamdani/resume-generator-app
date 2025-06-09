@@ -20,7 +20,7 @@
             }
 		},
 		"features": {
-			"ghcr.io/hspaans/devcontainer-features/pytest:1": {},
+			"ghcr.io/hspaans/devcontainer-features/pytest:2": {},
 			"ghcr.io/devcontainers-extra/features/isort:2": {}
 		}
 
