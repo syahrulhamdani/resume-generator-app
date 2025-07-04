@@ -1,6 +1,5 @@
 name: Build and Deploy to Cloud Run
 env:
-  IMAGE: resume-generator
   TAG: latest
 
 on:
@@ -18,7 +17,7 @@ jobs:
     - name: Authenticate to GCP
       uses: google-github-actions/auth@v2
       with:
-        project_id: ceritadata-3704
+        project_id: ${{ vars.PROJECT_ID }}
         credentials_json: ${{ secrets.ARTIFACT_REGISTRY_SA }}
     - name: Configure Google Artifact Registry
       run: |
@@ -26,7 +25,7 @@ jobs:
     - name: Build and push Docker image
       id: build-push
       run: |
-        IMAGE_NAME=${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/$IMAGE:$TAG
+        IMAGE_NAME=${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ vars.IMAGE }}:$TAG
         docker build -t $IMAGE_NAME .
         docker push $IMAGE_NAME
 
@@ -41,7 +40,7 @@ jobs:
     - name: Authenticate to GCP
       uses: google-github-actions/auth@v2
       with:
-        project_id: ceritadata-3704
+        project_id: ${{ vars.PROJECT_ID }}
         credentials_json: ${{ secrets.ARTIFACT_REGISTRY_SA }}
     - name: Configure Google Artifact Registry
       run: |
@@ -51,6 +50,7 @@ jobs:
       uses: google-github-actions/deploy-cloudrun@v2
       with:
         service: ${{ vars.IMAGE }}
+        project_id: ${{ vars.PROJECT_ID }}
         region: ${{ vars.REGION }}
         image: ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ vars.IMAGE }}:latest
-        flags: "--port=7070 --memory=2Gi --cpu=2 --service-account=gha-gar@ceritadata-3704.iam.gserviceaccount.com"
+        flags: "--port=7070 --memory=1Gi --cpu=1 --service-account=${{ secrets.CLOUD_RUN_SA }} --max-instances=2 --timeout=300 --concurrency=10"
